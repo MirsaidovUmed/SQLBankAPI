@@ -3,10 +3,11 @@
     <p>The task is to create a client base. The implementation is done in Golang.</p>
         <h2>Quest Items</h2>
         
-        Creating a client
-        Top up the client’s account
-        Show client balance
-        Withdraw money from your balance
-        Error when there is not enough balance
+        Creating a client and his account
+        Top up client account
+        View client balance
+        Withdraw money from balance
+        Money transfer
+        Get bank profit
 
 </body>
