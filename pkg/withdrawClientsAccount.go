@@ -10,10 +10,17 @@ func WithdrawClientsAccount() {
 
 	fmt.Scan(&name)
 
+	var balance float64
+	var has bool
 	// проверка на наличие клиента
-	balance, ok := Database[name]
+	for _, val := range Accounts {
+		if name == val.Name {
+			balance = val.Balance
+			has = true
+		}
+	}
 
-	if !ok {
+	if !has {
 		fmt.Println("Ошибка! данного пользователя нет в нашей бд")
 		return
 	}
@@ -26,5 +33,9 @@ func WithdrawClientsAccount() {
 		return
 	}
 
-	Database[name] = balance - amount
+	for _, val := range Accounts {
+		if name == val.Name {
+			val.Balance = balance - amount
+		}
+	}
 }

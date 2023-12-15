@@ -1,11 +1,14 @@
 package main
 
 import (
-	"BankCLI/pkg"
+	"bankCLI/pkg"
+	"bankCLI/pkg/mock"
 	"fmt"
 )
 
 func main() {
+	mock.FillCities()
+	fmt.Printf("%+v \n", pkg.Cities)
 	for {
 		var choice int
 
@@ -15,7 +18,9 @@ func main() {
 		fmt.Println("4. Снять деньги с баланса")
 		fmt.Println("5. Перевод денег")
 		fmt.Println("6. Получить прибыль банка")
-		fmt.Println("7. Выйти")
+		fmt.Println("7. Получить общий счет по определенному городу")
+
+		fmt.Println("8. Выйти")
 
 		fmt.Scan(&choice)
 
@@ -33,6 +38,8 @@ func main() {
 		case 6:
 			pkg.ShowProfit()
 		case 7:
+			pkg.ShowCityMoney()
+		case 8:
 			return
 		}
 	}

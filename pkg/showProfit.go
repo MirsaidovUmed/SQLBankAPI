@@ -1,13 +1,31 @@
 package pkg
 
-import "fmt"
+import (
+	"bankCLI/pkg/models"
+	"fmt"
+)
 
 func ShowProfit() {
-	balance, ok := Database["Profit"]
 
-	if !ok {
-		Database["Profit"] = 0
+	var balance float64
+	var has bool
+	// проверка на наличие клиента
+	for _, val := range Accounts {
+		if "profit" == val.Name {
+			balance = val.Balance
+			has = true
+		}
+
 	}
 
-	fmt.Println("Прибыль банка составляет:", balance)
+	if !has {
+		Accounts = append(Accounts, &models.Account{
+			Name:        "profit",
+			Balance:     0.0,
+			PhoneNumber: "544",
+			City:        &Cities[0],
+		})
+	}
+
+	fmt.Println(balance)
 }
