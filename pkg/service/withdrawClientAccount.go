@@ -1,8 +1,8 @@
-package pkg
+package service
 
 import "fmt"
 
-func WithdrawClientsAccount() {
+func (s *Service) WithdrawClientsAccount() {
 	var name string
 	var amount float64
 
@@ -10,17 +10,9 @@ func WithdrawClientsAccount() {
 
 	fmt.Scan(&name)
 
-	var balance float64
-	var has bool
-	// проверка на наличие клиента
-	for _, val := range Accounts {
-		if name == val.Name {
-			balance = val.Balance
-			has = true
-		}
-	}
+	account, err := s.Repository.GetAccount(name)
 
-	if !has {
+	if err != nil {
 		fmt.Println("Ошибка! данного пользователя нет в нашей бд")
 		return
 	}
@@ -28,14 +20,10 @@ func WithdrawClientsAccount() {
 	fmt.Println("Введите сумму которую хотите снять")
 	fmt.Scan(&amount)
 
-	if balance < amount {
+	if account.Balance < amount {
 		fmt.Println("Ошибка! недостаточно средств на балансе")
 		return
 	}
 
-	for _, val := range Accounts {
-		if name == val.Name {
-			val.Balance = balance - amount
-		}
-	}
+	s.Repository.ChangeAccountsBalance(account, account.Balance-amount)
 }
