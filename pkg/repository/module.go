@@ -17,7 +17,7 @@ type RepositoryInterface interface {
 	AddCity(name, region string) (err error)
 	AddTransfer(sender *models.Account, recipient *models.Account, amount float64) (err error)
 	ChangeAccountsBalance(account *models.Account) (err error)
-	GetAccount(name string) (account *models.Account, err error)
+	GetAccount(name, password string) (account *models.Account, err error)
 	GetCity(name string) (city *models.City, err error)
 	GetPercent() float64
 	TopUpProfitAccount(amount float64)

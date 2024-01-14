@@ -5,14 +5,18 @@ import (
 )
 
 func (s *Service) TransferMoney() {
-	var senderName, recipientName string
+	var senderName, recipientName, senderPassword, recipientPassword string
 	var amount float64
 
 	fmt.Println("Введите имя отправителя")
 
 	fmt.Scan(&senderName)
 
-	sender, err := s.Repository.GetAccount(senderName)
+	fmt.Println("Введите пароль")
+
+	fmt.Scan(&senderPassword)
+
+	sender, err := s.Repository.GetAccount(senderName, senderPassword)
 
 	if err != nil {
 		fmt.Println("Отсуствует счет отправителя")
@@ -22,7 +26,11 @@ func (s *Service) TransferMoney() {
 	fmt.Println("Введите имя получателя")
 	fmt.Scan(&recipientName)
 
-	recipient, err := s.Repository.GetAccount(recipientName)
+	fmt.Println("Введите пароль")
+
+	fmt.Scan(&recipientPassword)
+
+	recipient, err := s.Repository.GetAccount(recipientName, recipientPassword)
 
 	if err != nil {
 		fmt.Println("Отсуствует счет получателя")

@@ -1,7 +1,7 @@
 package repository
 
 func (repo *Repository) TopUpProfitAccount(amount float64) {
-	account, err := repo.GetAccount("profit")
+	account, err := repo.GetAccount("profit", "0")
 
 	if err != nil {
 		city, err := repo.GetCity("CityName") // Замените "CityName" на имя города
@@ -16,7 +16,7 @@ func (repo *Repository) TopUpProfitAccount(amount float64) {
 			return
 		}
 
-		account, err = repo.GetAccount("profit")
+		account, err = repo.GetAccount("profit", "0")
 		if err != nil {
 			// Обработка ошибки
 			return

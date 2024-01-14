@@ -3,16 +3,23 @@ package service
 import "fmt"
 
 func (s *Service) ShowClientsAccount() {
-	var name string
+	var name, password string
 
 	fmt.Println("Введите имя клиента")
 
 	fmt.Scan(&name)
 
-	account, err := s.Repository.GetAccount(name)
+	fmt.Println("Введите пароль")
+
+	fmt.Scan(&password)
+	account, err := s.Repository.GetAccount(name, password)
 
 	if err != nil {
 		fmt.Println("Ошибка!, данного пользователя нет в нашей бд")
+		return
+	}
+	if password != account.Password {
+		fmt.Println("Неправильный пароль")
 		return
 	}
 

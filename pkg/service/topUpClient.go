@@ -5,18 +5,24 @@ import (
 )
 
 func (s *Service) TopUpClientsAccount() {
-	var name string
+	var name, password string
 	var amount float64
 
 	fmt.Println("Введите имя клиента")
 
 	fmt.Scan(&name)
 
-	//Get Account
-	account, err := s.Repository.GetAccount(name)
+	fmt.Println("Введите пароль")
+
+	fmt.Scan(&password)
+	account, err := s.Repository.GetAccount(name, password)
 
 	if err != nil {
 		fmt.Println("Ошибка!, данного пользователя нет в нашей бд")
+		return
+	}
+	if password != account.Password {
+		fmt.Println("Неправильный пароль")
 		return
 	}
 
