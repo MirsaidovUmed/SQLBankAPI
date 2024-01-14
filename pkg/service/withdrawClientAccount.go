@@ -20,10 +20,15 @@ func (s *Service) WithdrawClientsAccount() {
 	fmt.Println("Введите сумму которую хотите снять")
 	fmt.Scan(&amount)
 
+	account.Balance -= amount
+
 	if account.Balance < amount {
 		fmt.Println("Ошибка! недостаточно средств на балансе")
 		return
 	}
 
-	s.Repository.ChangeAccountsBalance(account, account.Balance-amount)
+	err = s.Repository.ChangeAccountsBalance(account)
+	if err != nil {
+		fmt.Println("Ошибка при обновлении баланса аккаунта")
+	}
 }

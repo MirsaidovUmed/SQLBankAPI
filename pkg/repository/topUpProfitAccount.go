@@ -4,10 +4,28 @@ func (repo *Repository) TopUpProfitAccount(amount float64) {
 	account, err := repo.GetAccount("profit")
 
 	if err != nil {
-		repo.AddAccount("profit", 0, "544", repo.Database.Cities[0])
+		city, err := repo.GetCity("CityName") // Замените "CityName" на имя города
+		if err != nil {
+			// Обработка ошибки
+			return
+		}
 
-		account, _ = repo.GetAccount("profit")
+		err = repo.AddAccount("profit", 0, "544", "0", city)
+		if err != nil {
+			// Обработка ошибки
+			return
+		}
+
+		account, err = repo.GetAccount("profit")
+		if err != nil {
+			// Обработка ошибки
+			return
+		}
 	}
 
 	account.Balance += amount
+	err = repo.ChangeAccountsBalance(account)
+	if err != nil {
+		// Обработка ошибки
+	}
 }

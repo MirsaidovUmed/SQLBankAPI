@@ -1,11 +1,20 @@
 package repository
 
-import "bankCLI/pkg/models"
+import (
+	"bankCLI/pkg/models"
+	"context"
+)
 
-func (repo *Repository) AddTransfer(sender, recipient *models.Account, amount float64) {
-	repo.Database.Transfers = append(repo.Database.Transfers, &models.Transfer{
-		Sender:    sender,
-		Recipient: recipient,
-		Amount:    amount,
-	})
+func (repo *Repository) AddTransfer(sender *models.Account, recipient *models.Account, amount float64) (err error) {
+	_, err = repo.Database.Exec(context.Background(), `
+	INSERT INTO transfer(
+		sender_id,
+		recipient_id,
+		amount
+	)VALUES(
+		$1,
+		$2,
+		$3);
+`, sender.Id, recipient.Id, amount)
+	return
 }

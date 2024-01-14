@@ -23,6 +23,13 @@ func (s *Service) TopUpClientsAccount() {
 	fmt.Println("Введите сумму которую хотите пополнить")
 	fmt.Scan(&amount)
 
-	s.Repository.ChangeAccountsBalance(account, account.Balance+amount)
+	// Update the account balance
+	account.Balance += amount
 
+	// Now update the account in the database
+	err = s.Repository.ChangeAccountsBalance(account)
+	if err != nil {
+		fmt.Println("Ошибка при обновлении баланса аккаунта: ", err)
+		return
+	}
 }

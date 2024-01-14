@@ -40,11 +40,15 @@ func (s *Service) TransferMoney() {
 
 	var comission float64 = amount / 100 * s.Repository.GetPercent()
 
+	sender.Balance -= amount
+
 	//change account balance
-	s.Repository.ChangeAccountsBalance(sender, sender.Balance-amount)
+	s.Repository.ChangeAccountsBalance(sender)
+
+	recipient.Balance += amount - comission
 
 	// change account balance
-	s.Repository.ChangeAccountsBalance(recipient, recipient.Balance+(amount-comission))
+	s.Repository.ChangeAccountsBalance(recipient)
 
 	// top up profit account
 	s.Repository.TopUpProfitAccount(comission)

@@ -31,7 +31,13 @@ func (s *Service) RegisterClient() {
 		return
 	}
 
-	s.Repository.AddAccount(name, 0.0, phone, city)
+	var password string
+
+	fmt.Println("Введите пароль")
+
+	fmt.Scan(&password)
+
+	s.Repository.AddAccount(name, 0.0, phone, password, city)
 
 	fmt.Println("Успешно зарегистрирован клиент!")
 }

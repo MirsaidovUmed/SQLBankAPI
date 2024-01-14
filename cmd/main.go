@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bankCLI/pkg/config"
 	"bankCLI/pkg/database"
 	"bankCLI/pkg/repository"
 	"bankCLI/pkg/service"
@@ -8,9 +9,11 @@ import (
 )
 
 func main() {
-	db := database.NewDatabase(10.0)
+	config := config.NewConfig()
 
-	repo := repository.NewRepository(db)
+	db := database.NewDatabase(config)
+
+	repo := repository.NewRepository(db, config)
 
 	svc := service.NewService(repo)
 

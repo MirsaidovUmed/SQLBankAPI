@@ -1,20 +1,18 @@
 package database
 
-import "bankCLI/pkg/models"
+import (
+	"bankCLI/pkg/config"
+	"context"
 
-type Database struct {
-	Accounts  []*models.Account
-	Cities    []*models.City
-	Transfers []*models.Transfer
+	"github.com/jackc/pgx/v5"
+)
 
-	Percent float64
-}
+func NewDatabase(config *config.Config) *pgx.Conn {
+	db, err := pgx.Connect(context.Background(), config.PostgresURL)
 
-func NewDatabase(percent float64) *Database {
-	return &Database{
-		Accounts:  make([]*models.Account, 0),
-		Cities:    make([]*models.City, 0),
-		Transfers: make([]*models.Transfer, 0),
-		Percent:   percent,
+	if err != nil {
+		panic(err)
 	}
+
+	return db
 }
