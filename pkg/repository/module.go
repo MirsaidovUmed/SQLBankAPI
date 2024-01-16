@@ -1,31 +1,26 @@
 package repository
 
 import (
-	"bankCLI/pkg/config"
-	"bankCLI/pkg/models"
-
 	"github.com/jackc/pgx/v5"
+	"sqlBankCLI/pkg/models"
 )
 
 type Repository struct {
-	Database *pgx.Conn
-	Config   *config.Config
+	Conn *pgx.Conn
 }
 
 type RepositoryInterface interface {
-	AddAccount(name string, balance float64, phone_number, password string, city *models.City) (err error)
-	AddCity(name, region string) (err error)
-	AddTransfer(sender *models.Account, recipient *models.Account, amount float64) (err error)
-	ChangeAccountsBalance(account *models.Account) (err error)
-	GetAccount(name, password string) (account *models.Account, err error)
-	GetCity(name string) (city *models.City, err error)
+	CreateBankAccount(account models.Account) (err error)
+	GetAccountByName(name string) (account models.Account, err error)
+	GetAccountByPhoneNumber(phoneNumber string) (account models.Account, err error)
+	ChangeAccountBalance(account models.Account) (err error)
 	GetPercent() float64
-	TopUpProfitAccount(amount float64)
+	AddTransfer(sender *models.Account, recipient *models.Account, amount float64) (err error)
+	TopUpProfitAccount(amount float64) (err error)
 }
 
-func NewRepository(db *pgx.Conn, config *config.Config) RepositoryInterface {
+func NewRepository(conn *pgx.Conn) RepositoryInterface {
 	return &Repository{
-		Database: db,
-		Config:   config,
+		Conn: conn,
 	}
 }

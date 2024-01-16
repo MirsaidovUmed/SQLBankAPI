@@ -1,68 +1,56 @@
 package service
 
-import (
-	"fmt"
-)
+import "sqlBankCLI/pkg/models"
 
-func (s *Service) TransferMoney() {
-	var senderName, recipientName, senderPassword, recipientPassword string
-	var amount float64
+func (s *Service) TransferMoney(senderPhone, recipientPhone string, amount float64) error {
 
-	fmt.Println("Введите имя отправителя")
-
-	fmt.Scan(&senderName)
-
-	fmt.Println("Введите пароль")
-
-	fmt.Scan(&senderPassword)
-
-	sender, err := s.Repository.GetAccount(senderName, senderPassword)
+	sender, err := s.Repo.GetAccountByPhoneNumber(senderPhone)
 
 	if err != nil {
-		fmt.Println("Отсуствует счет отправителя")
-		return
+		return err
 	}
 
-	fmt.Println("Введите имя получателя")
-	fmt.Scan(&recipientName)
-
-	fmt.Println("Введите пароль")
-
-	fmt.Scan(&recipientPassword)
-
-	recipient, err := s.Repository.GetAccount(recipientName, recipientPassword)
+	recipient, err := s.Repo.GetAccountByPhoneNumber(recipientPhone)
 
 	if err != nil {
-		fmt.Println("Отсуствует счет получателя")
-		return
+		return err
 	}
-
-	fmt.Println("Введите сумму перевода")
-
-	fmt.Scan(&amount)
 
 	if sender.Balance < amount {
-		fmt.Println("Недостаточно средств")
-		return
+		return err
 	}
 
-	var comission float64 = amount / 100 * s.Repository.GetPercent()
+	comission := amount / 100 * s.Repo.GetPercent()
 
-	sender.Balance -= amount
+	sender.Balance -= amount + comission
 
-	//change account balance
-	s.Repository.ChangeAccountsBalance(sender)
+	err = s.Repo.ChangeAccountBalance(sender)
+	if err != nil {
+		return err
+	}
 
 	recipient.Balance += amount - comission
 
-	// change account balance
-	s.Repository.ChangeAccountsBalance(recipient)
+	err = s.Repo.ChangeAccountBalance(recipient)
+	if err != nil {
+		return err
+	}
 
-	// top up profit account
-	s.Repository.TopUpProfitAccount(comission)
+	profitAccount, err := s.Repo.GetAccountByName("profit")
+	if err != nil {
+		profitAccount = models.Account{FullName: "profit", PhoneNumber: "544", Address: "address"}
+		err = s.Repo.CreateBankAccount(profitAccount)
+		if err != nil {
+			return err
+		}
+	}
 
-	// addTransfer
-	s.Repository.AddTransfer(sender, recipient, amount)
+	err = s.Repo.TopUpProfitAccount(comission)
+	if err != nil {
+		return err
+	}
 
-	fmt.Println("Успешно переведено")
+	s.Repo.AddTransfer(&sender, &recipient, amount)
+
+	return nil
 }

@@ -1,48 +1,45 @@
 package main
 
 import (
-	"bankCLI/pkg/config"
-	"bankCLI/pkg/database"
-	"bankCLI/pkg/repository"
-	"bankCLI/pkg/service"
 	"fmt"
+	"sqlBankCLI/pkg/config"
+	"sqlBankCLI/pkg/database"
+	"sqlBankCLI/pkg/repository"
+	"sqlBankCLI/pkg/service"
+	"sqlBankCLI/pkg/transport"
 )
 
 func main() {
-	config := config.NewConfig()
-
-	db := database.NewDatabase(config)
-
-	repo := repository.NewRepository(db, config)
-
+	conf := config.NewConfig()
+	db := database.NewDatabase(conf)
+	repo := repository.NewRepository(db)
 	svc := service.NewService(repo)
-
-	svc.FillCities()
+	transp := transport.NewTransport(svc)
 
 	for {
 		var choice int
 
-		fmt.Println("1. Создание клиента, и его счет")
-		fmt.Println("2. Пополнить счет клиента")
-		fmt.Println("3. Посмотреть баланс клиента")
-		fmt.Println("4. Снять деньги с баланса")
+		fmt.Println("<<BANK CLI WITH SQL>>")
+		fmt.Println("1. Создать счет в банке")
+		fmt.Println("2. Пополнить счёт клиента")
+		fmt.Println("3. Снять деньги со счёт клиента")
+		fmt.Println("4. Показать счёт клиента")
 		fmt.Println("5. Перевод денег")
 		fmt.Println("6. Выйти")
 
 		fmt.Scan(&choice)
 
-		switch choice {
-		case 1:
-			svc.RegisterClient()
-		case 2:
-			svc.TopUpClientsAccount()
-		case 3:
-			svc.ShowClientsAccount()
-		case 4:
-			svc.WithdrawClientsAccount()
-		case 5:
-			svc.TransferMoney()
-		case 6:
+		if choice == 1 {
+			transp.CreateBankAccount()
+		} else if choice == 2 {
+			transp.TopUpClientsAccount()
+		} else if choice == 3 {
+			transp.WithdrawClientAccount()
+		} else if choice == 4 {
+			transp.ShowAccountBalance()
+		} else if choice == 5 {
+			transp.TransferMoney()
+		} else if choice == 6 {
 			return
 		}
 	}

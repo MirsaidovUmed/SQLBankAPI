@@ -1,12 +1,12 @@
 package repository
 
 import (
-	"bankCLI/pkg/models"
 	"context"
+	"sqlBankCLI/pkg/models"
 )
 
 func (repo *Repository) AddTransfer(sender *models.Account, recipient *models.Account, amount float64) (err error) {
-	_, err = repo.Database.Exec(context.Background(), `
+	_, err = repo.Conn.Exec(context.Background(), `
 	INSERT INTO transfer(
 		sender_id,
 		recipient_id,

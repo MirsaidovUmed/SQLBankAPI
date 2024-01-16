@@ -2,9 +2,8 @@ package models
 
 type Account struct {
 	Id          int
-	Name        string
-	Balance     float64
-	Password    string
+	FullName    string
 	PhoneNumber string
-	City        *City
+	Address     string
+	Balance     float64
 }

@@ -1,41 +1,20 @@
 package service
 
-import "fmt"
+import "sqlBankCLI/pkg/models"
 
-func (s *Service) WithdrawClientsAccount() {
-	var name, password string
-	var amount float64
-
-	fmt.Println("Введите имя клиента")
-
-	fmt.Scan(&name)
-
-	fmt.Println("Введите пароль")
-
-	fmt.Scan(&password)
-	account, err := s.Repository.GetAccount(name, password)
+func (s *Service) WithdrawClientAccount(account models.Account, amount float64) (err error) {
+	account, err = s.Repo.GetAccountByPhoneNumber(account.PhoneNumber)
 
 	if err != nil {
-		fmt.Println("Ошибка!, данного пользователя нет в нашей бд")
-		return
-	}
-	if password != account.Password {
-		fmt.Println("Неправильный пароль")
 		return
 	}
 
-	fmt.Println("Введите сумму которую хотите снять")
-	fmt.Scan(&amount)
+	account.Balance += amount
 
-	account.Balance -= amount
-
-	if account.Balance < amount {
-		fmt.Println("Ошибка! недостаточно средств на балансе")
-		return
-	}
-
-	err = s.Repository.ChangeAccountsBalance(account)
+	err = s.Repo.ChangeAccountBalance(account)
 	if err != nil {
-		fmt.Println("Ошибка при обновлении баланса аккаунта")
+		return
 	}
+
+	return
 }
