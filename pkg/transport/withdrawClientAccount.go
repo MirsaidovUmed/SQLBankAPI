@@ -19,7 +19,7 @@ func (t *Transport) WithdrawClientAccount() {
 
 	fmt.Scan(&amount)
 
-	err := t.Svc.TopUpClientsAccount(account, amount)
+	err := t.Svc.WithdrawClientAccount(account, amount)
 
 	if err != nil {
 		fmt.Println(err)
