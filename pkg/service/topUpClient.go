@@ -1,8 +1,15 @@
 package service
 
-import "sqlBankCLI/pkg/models"
+import (
+	"sqlBankCLI/pkg/errors"
+	"sqlBankCLI/pkg/models"
+)
 
 func (s *Service) TopUpClientsAccount(account models.Account, amount float64) (err error) {
+	if len(account.PhoneNumber) != 9 {
+		return errors.ErrIncorrectPhoneNumber
+	}
+
 	account, err = s.Repo.GetAccountByPhoneNumber(account.PhoneNumber)
 
 	if err != nil {

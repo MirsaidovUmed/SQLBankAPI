@@ -1,6 +1,12 @@
 package service
 
+import "sqlBankCLI/pkg/errors"
+
 func (s *Service) TransferMoney(senderPhone, recipientPhone string, amount float64) error {
+	if len(senderPhone) != 9 || len(recipientPhone) != 9 {
+		return errors.ErrIncorrectPhoneNumber
+	}
+
 	sender, err := s.Repo.GetAccountByPhoneNumber(senderPhone)
 	if err != nil {
 		return err
