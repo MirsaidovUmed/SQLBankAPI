@@ -1,12 +1,13 @@
 package main
 
 import (
-	"fmt"
+	"sqlBankCLI/internal/repository"
+	"sqlBankCLI/internal/service"
+	"sqlBankCLI/internal/transport/http/handlers"
+	"sqlBankCLI/internal/transport/http/router"
 	"sqlBankCLI/pkg/config"
 	"sqlBankCLI/pkg/database"
-	"sqlBankCLI/pkg/repository"
-	"sqlBankCLI/pkg/service"
-	"sqlBankCLI/pkg/transport"
+	"sqlBankCLI/pkg/http"
 )
 
 func main() {
@@ -14,33 +15,12 @@ func main() {
 	db := database.NewDatabase(conf)
 	repo := repository.NewRepository(db)
 	svc := service.NewService(repo)
-	transp := transport.NewTransport(svc)
 
-	for {
-		var choice int
+	handlers := handlers.NewHandler(svc)
 
-		fmt.Println("<<BANK CLI WITH SQL>>")
-		fmt.Println("1. Создать счет в банке")
-		fmt.Println("2. Пополнить счёт клиента")
-		fmt.Println("3. Снять деньги со счёт клиента")
-		fmt.Println("4. Показать счёт клиента")
-		fmt.Println("5. Перевод денег")
-		fmt.Println("6. Выйти")
+	router := router.InitRouter(handlers)
 
-		fmt.Scan(&choice)
+	server := http.NewServer(conf.ServerAddress, conf.ServerPort, router)
 
-		if choice == 1 {
-			transp.CreateBankAccount()
-		} else if choice == 2 {
-			transp.TopUpClientsAccount()
-		} else if choice == 3 {
-			transp.WithdrawClientAccount()
-		} else if choice == 4 {
-			transp.ShowAccountBalance()
-		} else if choice == 5 {
-			transp.TransferMoney()
-		} else if choice == 6 {
-			return
-		}
-	}
+	server.Run()
 }

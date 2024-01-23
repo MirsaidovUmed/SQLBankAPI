@@ -1,11 +1,11 @@
 package service
 
 import (
+	"sqlBankCLI/internal/models"
 	"sqlBankCLI/pkg/errors"
-	"sqlBankCLI/pkg/models"
 )
 
-func (s *Service) WithdrawClientAccount(account models.Account, amount float64) (err error) {
+func (s *Service) TopUpClientsAccount(account models.Account, amount float64) (err error) {
 	if len(account.PhoneNumber) != 9 {
 		return errors.ErrIncorrectPhoneNumber
 	}
@@ -16,16 +16,12 @@ func (s *Service) WithdrawClientAccount(account models.Account, amount float64) 
 		return
 	}
 
-	if account.Balance < amount {
-		return err
-	}
-
-	account.Balance -= amount
+	account.Balance += amount
 
 	err = s.Repo.ChangeAccountBalance(account)
 	if err != nil {
 		return
 	}
 
-	return
+	return nil
 }

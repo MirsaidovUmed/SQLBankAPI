@@ -2,7 +2,7 @@ package repository
 
 import (
 	"context"
-	"sqlBankCLI/pkg/models"
+	"sqlBankCLI/internal/models"
 )
 
 func (repo *Repository) AddTransfer(sender *models.Account, recipient *models.Account, amount float64) (err error) {

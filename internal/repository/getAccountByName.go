@@ -2,8 +2,8 @@ package repository
 
 import (
 	"context"
+	"sqlBankCLI/internal/models"
 	"sqlBankCLI/pkg/errors"
-	"sqlBankCLI/pkg/models"
 
 	"github.com/jackc/pgx/v5"
 )

@@ -1,8 +1,8 @@
 package service
 
 import (
+	"sqlBankCLI/internal/models"
 	"sqlBankCLI/pkg/errors"
-	"sqlBankCLI/pkg/models"
 )
 
 func (s *Service) CreateBankAccount(account models.Account) error {

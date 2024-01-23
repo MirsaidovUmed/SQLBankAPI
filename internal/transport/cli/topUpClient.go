@@ -2,10 +2,10 @@ package transport
 
 import (
 	"fmt"
-	"sqlBankCLI/pkg/models"
+	"sqlBankCLI/internal/models"
 )
 
-func (t *Transport) WithdrawClientAccount() {
+func (t *Transport) TopUpClientsAccount() {
 	var account models.Account
 	var amount float64
 
@@ -15,16 +15,16 @@ func (t *Transport) WithdrawClientAccount() {
 
 	fmt.Scan(&account.PhoneNumber)
 
-	fmt.Println("Введите сумму которую хотите снять")
+	fmt.Println("Введите сумму которую хотите пополнить")
 
 	fmt.Scan(&amount)
 
-	err := t.Svc.WithdrawClientAccount(account, amount)
+	err := t.Svc.TopUpClientsAccount(account, amount)
 
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println("Деньги усешно сняты!")
+	fmt.Println("Счет успешно пополнен!")
 }

@@ -2,7 +2,7 @@ package transport
 
 import (
 	"fmt"
-	"sqlBankCLI/pkg/models"
+	"sqlBankCLI/internal/models"
 )
 
 func (t *Transport) ShowAccountBalance() {

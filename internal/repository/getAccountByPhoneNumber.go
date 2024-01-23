@@ -2,9 +2,10 @@ package repository
 
 import (
 	"context"
-	"github.com/jackc/pgx/v5"
+	"sqlBankCLI/internal/models"
 	"sqlBankCLI/pkg/errors"
-	"sqlBankCLI/pkg/models"
+
+	"github.com/jackc/pgx/v5"
 )
 
 func (repo *Repository) GetAccountByPhoneNumber(phoneNumber string) (account models.Account, err error) {

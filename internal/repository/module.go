@@ -1,8 +1,9 @@
 package repository
 
 import (
+	"sqlBankCLI/internal/models"
+
 	"github.com/jackc/pgx/v5"
-	"sqlBankCLI/pkg/models"
 )
 
 type Repository struct {

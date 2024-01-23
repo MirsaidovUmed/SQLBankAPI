@@ -2,7 +2,7 @@ package repository
 
 import (
 	"context"
-	"sqlBankCLI/pkg/models"
+	"sqlBankCLI/internal/models"
 )
 
 func (repo *Repository) ChangeAccountBalance(account models.Account) (err error) {

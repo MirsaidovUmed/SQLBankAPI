@@ -1,6 +1,6 @@
 package transport
 
-import "sqlBankCLI/pkg/service"
+import "sqlBankCLI/internal/service"
 
 type Transport struct {
 	Svc service.ServiceInterface
