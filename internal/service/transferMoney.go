@@ -38,11 +38,11 @@ func (s *Service) TransferMoney(senderPhone, recipientPhone string, amount float
 	profitAccount, err := s.Repo.GetAccountByName("profit")
 	if err != nil {
 		err = s.Repo.CreateProfitAccount("profit", "544", "address")
-		profitAccount.Balance += comission
-		err = s.Repo.ChangeAccountBalance(profitAccount)
 		if err != nil {
 			return err
 		}
+		profitAccount.Balance += comission
+		err = s.Repo.ChangeAccountBalance(profitAccount)
 		if err != nil {
 			return err
 		}
