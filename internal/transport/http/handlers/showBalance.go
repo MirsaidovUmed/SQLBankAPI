@@ -7,30 +7,6 @@ import (
 	"sqlBankCLI/pkg/response"
 )
 
-//func (h *Handler) ShowAccountBalance(w http.ResponseWriter, r *http.Request) {
-//	var resp response.Response
-//
-//	defer resp.WriteJSON(w)
-//
-//	var inputData models.Account
-//
-//	err := json.NewDecoder(r.Body).Decode(&inputData)
-//
-//	if err != nil {
-//		resp = response.BadRequest
-//		return
-//	}
-//
-//	err, _, _ = h.svc.ShowAccountBalance(inputData)
-//
-//	if err != nil {
-//		resp = response.InternalServer
-//		return
-//	}
-//
-//	resp = response.Success
-//}
-
 func (h *Handler) ShowAccountBalance(w http.ResponseWriter, r *http.Request) {
 	var resp response.Response
 
