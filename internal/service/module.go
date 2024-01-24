@@ -14,6 +14,7 @@ type ServiceInterface interface {
 	TopUpClientsAccount(account models.Account, amount float64) (err error)
 	WithdrawClientAccount(account models.Account, amount float64) (err error)
 	TransferMoney(senderPhone, recipientPhone string, amount float64) error
+	ShowAccountBalance(account models.Account) (name string, balance float64, err error)
 }
 
 func NewService(repo repository.RepositoryInterface) ServiceInterface {

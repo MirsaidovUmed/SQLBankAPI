@@ -18,5 +18,7 @@ func InitRouter(handlers *handlers.Handler) *mux.Router {
 
 	router.HandleFunc("/api/transferMoney", handlers.TransferMoney).Methods("POST")
 
+	router.HandleFunc("/api/showAccountBalance", handlers.ShowAccountBalance).Methods("GET")
+
 	return router
 }
